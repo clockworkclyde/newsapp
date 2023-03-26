@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":androidCoreDesign")
+
+
 pluginManagement {
     repositories {
         google()
