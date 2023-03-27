@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-
 plugins {
    kotlin("multiplatform")
    id("com.android.library")
@@ -54,9 +52,15 @@ kotlin {
       }
       val androidMain by getting {
          dependencies {
-            //implementation("com.google.android.material:material:1.8.0")
-            api("io.ktor:ktor-client-okhttp:${ktorVersion}")
+            // Coroutines
             api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutinesVersion}")
+
+            // HTTP
+            implementation("io.ktor:ktor-client-android:$ktorVersion")
+            implementation("io.ktor:ktor-client-json-jvm:$ktorVersion")
+            implementation("io.ktor:ktor-client-serialization-jvm:$ktorVersion")
+            implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+            implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
          }
       }
       val androidUnitTest by getting

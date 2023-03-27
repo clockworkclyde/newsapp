@@ -51,9 +51,8 @@ dependencies {
     implementation(AndroidDependencies.appCompat)
     implementation(AndroidDependencies.constraintLayout)
 
-    // RV adapter delegates
-    implementation(AndroidDependencies.adapterDelegates)
-    implementation(AndroidDependencies.adapterDelegatesViewBinding)
+    // RV
+    implementation(AndroidDependencies.fastAdapter)
 
     // Image loading
     implementation(AndroidDependencies.glide)

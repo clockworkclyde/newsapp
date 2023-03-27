@@ -7,8 +7,8 @@
 
    <fragment
        android:id="@+id/mainFragment"
-       android:name="com.github.clockworkclyde.newsapp.android.MainFragment"
+       android:name="com.github.clockworkclyde.newsapp.android.presentation.news.NewsFragment"
        android:label="@string/label_main_screen"
-       tools:layout="@layout/fragment_main" />
+       tools:layout="@layout/fragment_news" />
 
 </navigation>

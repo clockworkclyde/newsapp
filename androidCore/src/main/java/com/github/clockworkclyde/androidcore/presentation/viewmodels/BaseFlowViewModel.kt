@@ -1,8 +1,8 @@
 package com.github.clockworkclyde.androidcore.presentation.viewmodels
 
-import com.github.clockworkclyde.androidcore.common.NavigationHandler
-import com.github.clockworkclyde.androidcore.dto.IEvent
+import com.github.clockworkclyde.androidcore.navigation.NavigationHandler
 import com.github.clockworkclyde.androidcore.utils.unsafeLazy
+import com.github.clockworkclyde.newsapp.common.dto.IEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 

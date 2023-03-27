@@ -1,6 +1,7 @@
 package com.github.clockworkclyde.androidcoredesign.news.base
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -41,14 +42,23 @@ abstract class BannerView @JvmOverloads constructor(
          .inflate(layoutResId, this@BannerView, isAttachedToParent)
    }
 
-   open val image: ImageView?
+   abstract fun clearView()
+
+   protected open val imageView: ImageView?
       get() = findViewById<ImageView>(imageViewResId)
+
+   var image: Drawable? = null
+      get() = imageView?.drawable
+      set(value) {
+         field = value
+         imageView?.setImageDrawable(value)
+      }
 
    open var tag: Long = 0L
 
    protected open fun loadRoundedImage(url: String, tag: Long, cornerRadius: Int = 0) {
       rootView?.let { root ->
-         image?.let { iv ->
+         imageView?.let { iv ->
             Glide.with(root).loadRoundedImage(url, iv, cornerRadius)
             this.tag = tag
          }

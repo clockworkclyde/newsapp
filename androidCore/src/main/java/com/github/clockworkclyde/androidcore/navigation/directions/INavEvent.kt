@@ -1,6 +1,6 @@
 package com.github.clockworkclyde.androidcore.navigation.directions
 
-import com.github.clockworkclyde.androidcore.dto.IEvent
+import com.github.clockworkclyde.newsapp.common.dto.IEvent
 
 sealed interface INavEvent: IEvent {
 
@@ -10,5 +10,6 @@ sealed interface INavEvent: IEvent {
    class BackTo(val layoutId: Int, val inclusive: Boolean = false): INavEvent
 
    object PopBackTo : INavEvent
+
 }
 

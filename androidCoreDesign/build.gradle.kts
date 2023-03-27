@@ -43,8 +43,6 @@ dependencies {
    implementation(AndroidDependencies.kotlinCoreKtx)
    implementation(AndroidDependencies.appCompat)
    implementation(AndroidDependencies.material)
-   implementation(AndroidDependencies.adapterDelegates)
-   implementation(AndroidDependencies.adapterDelegatesViewBinding)
    implementation(AndroidDependencies.timber)
    implementation(AndroidDependencies.glide)
 

@@ -40,3 +40,32 @@ fun RequestManager.loadCircleRoundedBitmap(bitmap: Bitmap, view: ImageView) {
       .circleCrop()
       .into(view)
 }
+
+// Gif
+
+fun RequestManager.loadGif(
+   gifImageUrl: String,
+   view: ImageView,
+   radius: Int,
+   placeholderResId: Int? = null
+) {
+   this.asGif()
+      .load(gifImageUrl)
+      .transform(
+         CenterCrop(),
+         RoundedCorners(
+            radius
+         )
+      )
+      .run {
+         if (placeholderResId != null) this.placeholder(
+            AppCompatResources.getDrawable(
+               view.context,
+               placeholderResId
+            )
+         )
+         else this
+      }
+      .transition(DrawableTransitionOptions.withCrossFade())
+      .into(view)
+}

@@ -8,10 +8,9 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.github.clockworkclyde.androidcore.common.UnitHandler
 
 @BindingAdapter("android:safeClick")
-fun safeClickUnitHandler(view: View, onSafeClick: UnitHandler) {
+fun safeClickUnitHandler(view: View, onSafeClick: com.github.clockworkclyde.newsapp.common.UnitHandler) {
    view.safeClick { onSafeClick() }
 }
 

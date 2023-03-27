@@ -10,18 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.github.clockworkclyde.androidcore.dto.IEvent
-import com.github.clockworkclyde.androidcore.dto.UEvent
 import com.github.clockworkclyde.androidcore.presentation.fragments.IBaseFragment
 import com.github.clockworkclyde.androidcore.presentation.viewmodels.IEventViewModel
-import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
+import com.github.clockworkclyde.newsapp.common.dto.IEvent
+import com.github.clockworkclyde.newsapp.common.dto.UEvent
 import kotlinx.coroutines.launch
 
 fun Fragment.launchAndRepeatOnState(state: Lifecycle.State, block: suspend () -> Unit) {
@@ -63,10 +64,6 @@ fun EditText.hasError(): Boolean = this.error != null
 
 fun Fragment.toast(message: Any? = "", duration: Int = Toast.LENGTH_SHORT) =
    Toast.makeText(requireContext(), message.toString(), duration).show()
-
-fun AsyncListDifferDelegationAdapter<*>.clear() {
-   this.items = null
-}
 
 fun ViewGroup.setClipToOutline() {
    this.clipToOutline = true
@@ -116,4 +113,9 @@ fun Activity.hideKeyboard(): Boolean {
    val view = currentFocus ?: View(this)
    if (view is EditText) view.clearFocus()
    return view.hideKeyboard()
+}
+
+fun TextView.setTextOrGone(text: CharSequence?) {
+   this.isGone = text.isNullOrEmpty()
+   this.text = text
 }

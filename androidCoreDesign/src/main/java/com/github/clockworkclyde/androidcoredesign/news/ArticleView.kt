@@ -1,14 +1,15 @@
 package com.github.clockworkclyde.androidcoredesign.news
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.github.clockworkclyde.androidcore.utils.inflateBindingLayout
 import com.github.clockworkclyde.androidcore.utils.loadRoundedImage
 import com.github.clockworkclyde.androidcore.utils.safeClick
+import com.github.clockworkclyde.androidcore.utils.toDate
 import com.github.clockworkclyde.androidcoredesign.R
 import com.github.clockworkclyde.androidcoredesign.databinding.LayoutArticleViewBinding
 import com.github.clockworkclyde.newsapp.domain.model.news.Article
@@ -45,20 +46,34 @@ class ArticleView @JvmOverloads constructor(
          binding.articleCreatedAtTV.text = value
       }
 
-   val image: ImageView
-      get() = binding.articleIV
+   var image: Drawable? = null
+      get() = binding.articleIV.drawable
+      set(value) {
+         field = value
+         binding.articleIV.setImageDrawable(value)
+      }
 
    var onItemClick: (Article) -> Unit = {}
 
    private var articleImageRadius =
       context.resources.getDimensionPixelOffset(R.dimen.radius_image_article)
 
-   fun setUpView(article: Article) {
-      title = article.name
-      content = article.description
-      createdAt = article.createdAt
-      setRoundedArticleImage("", articleImageRadius)
-      binding.root.safeClick { onItemClick.invoke(article) }
+   fun setUpView(article: Article?) {
+      article?.let {
+         title = article.name
+         content = article.description
+         createdAt = article.createdAt.toDate()
+         setRoundedArticleImage(article.image.url, articleImageRadius)
+         binding.root.safeClick { onItemClick.invoke(article) }
+      }
+   }
+
+   fun clearView() {
+      title = null
+      content = null
+      createdAt = null
+      image = null
+      onItemClick = {}
    }
 
    fun setRoundedArticleImage(url: String, cornerRadius: Int = 0) {

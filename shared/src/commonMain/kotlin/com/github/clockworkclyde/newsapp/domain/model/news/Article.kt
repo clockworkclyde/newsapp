@@ -1,18 +1,22 @@
 package com.github.clockworkclyde.newsapp.domain.model.news
 
+import kotlinx.serialization.SerialName
+
+@kotlinx.serialization.Serializable
 data class Article(
-   override val id: Long,
-   val name: String,
-   val image: ArticleImage,
-   val description: String,
-   val createdAt: String
+   @SerialName("id") override val id: Long,
+   @SerialName("name") val name: String,
+   @SerialName("image") val image: ArticleImage,
+   @SerialName("description") val description: String,
+   @SerialName("create_date") val createdAt: Long
 ) : NewsContentItem
 
+@kotlinx.serialization.Serializable
 data class ArticleImage(
-   val id: Long,
-   val url: String,
-   val preview: String,
-   val placeholderColor: String,
-   val width: Int,
-   val height: Int
+   @SerialName("id") val id: String,
+   @SerialName("url") val url: String,
+   @SerialName("preview") val preview: String,
+   @SerialName("placeholder_color") val placeholderColor: String,
+   @SerialName("width") val width: Int,
+   @SerialName("height") val height: Int
 )

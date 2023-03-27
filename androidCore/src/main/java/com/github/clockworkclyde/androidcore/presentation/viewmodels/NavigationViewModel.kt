@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.ActionOnlyNavDirections
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
-import com.github.clockworkclyde.androidcore.common.NavigationHandler
 import com.github.clockworkclyde.androidcore.navigation.INavigationEventReceiver
 import com.github.clockworkclyde.androidcore.navigation.INavigator
+import com.github.clockworkclyde.androidcore.navigation.NavigationHandler
 import com.github.clockworkclyde.androidcore.navigation.directions.INavEvent
 import com.github.clockworkclyde.androidcore.utils.safeNavigate
 import kotlinx.coroutines.flow.MutableSharedFlow

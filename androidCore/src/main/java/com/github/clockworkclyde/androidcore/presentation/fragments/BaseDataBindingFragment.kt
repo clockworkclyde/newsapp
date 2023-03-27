@@ -10,12 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.github.clockworkclyde.androidcore.dto.DResult
 import com.github.clockworkclyde.androidcore.presentation.binding.IBaseDataBinding
 import com.github.clockworkclyde.androidcore.presentation.viewmodels.BaseFlowViewModel
 import com.github.clockworkclyde.androidcore.utils.inflateBindingLayout
 import com.github.clockworkclyde.androidcore.utils.launchAndRepeatOnState
 import com.github.clockworkclyde.androidcore.utils.toast
+import com.github.clockworkclyde.newsapp.common.dto.DResult
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 
