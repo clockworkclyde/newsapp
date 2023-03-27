@@ -39,6 +39,8 @@ android {
 
 dependencies {
     implementation(project(":shared"))
+    implementation(project(":androidCore"))
+    implementation(project(":androidCoreDesign"))
 
     // Logger
     implementation(AndroidDependencies.timber)
