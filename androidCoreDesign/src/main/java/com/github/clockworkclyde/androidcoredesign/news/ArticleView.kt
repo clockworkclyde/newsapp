@@ -8,8 +8,10 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.github.clockworkclyde.androidcore.utils.inflateBindingLayout
 import com.github.clockworkclyde.androidcore.utils.loadRoundedImage
+import com.github.clockworkclyde.androidcore.utils.safeClick
 import com.github.clockworkclyde.androidcoredesign.R
 import com.github.clockworkclyde.androidcoredesign.databinding.LayoutArticleViewBinding
+import com.github.clockworkclyde.newsapp.domain.model.news.Article
 
 class ArticleView @JvmOverloads constructor(
    context: Context,
@@ -46,14 +48,17 @@ class ArticleView @JvmOverloads constructor(
    val image: ImageView
       get() = binding.articleIV
 
+   var onItemClick: (Article) -> Unit = {}
+
    private var articleImageRadius =
       context.resources.getDimensionPixelOffset(R.dimen.radius_image_article)
 
-   fun setUpView(article: String) {
-      title = ""
-      content = ""
-      createdAt = ""
+   fun setUpView(article: Article) {
+      title = article.name
+      content = article.description
+      createdAt = article.createdAt
       setRoundedArticleImage("", articleImageRadius)
+      binding.root.safeClick { onItemClick.invoke(article) }
    }
 
    fun setRoundedArticleImage(url: String, cornerRadius: Int = 0) {

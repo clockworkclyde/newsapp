@@ -12,13 +12,13 @@ import com.github.clockworkclyde.androidcore.utils.loadRoundedImage
 abstract class BannerView @JvmOverloads constructor(
    context: Context,
    attrs: AttributeSet? = null,
-   defStyleAttr: Int = 0
+   defStyleAttr: Int = 0,
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
    abstract val layoutResId: Int
    abstract val imageViewResId: Int
 
-   var rootView: View? = null
+   var layoutView: View? = null
 
    override fun onAttachedToWindow() {
       super.onAttachedToWindow()
@@ -30,14 +30,14 @@ abstract class BannerView @JvmOverloads constructor(
    override fun onDetachedFromWindow() {
       super.onDetachedFromWindow()
       if (!isInEditMode) {
-         rootView = null
+         layoutView = null
       }
    }
 
    protected open val isAttachedToParent: Boolean = true
 
    protected open fun setUpView() {
-      rootView = LayoutInflater.from(context)
+      layoutView = LayoutInflater.from(context)
          .inflate(layoutResId, this@BannerView, isAttachedToParent)
    }
 
