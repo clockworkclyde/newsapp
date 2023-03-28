@@ -1,9 +1,8 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-
 plugins {
    kotlin("multiplatform")
    id("com.android.library")
    kotlin("plugin.serialization")
+   id("kotlin-parcelize")
 }
 
 kotlin {
@@ -33,7 +32,6 @@ kotlin {
       val commonMain by getting {
          dependencies {
             api("org.jetbrains.kotlinx:kotlinx-serialization-core:${serializationVersion}")
-
             // Ktor client + okhttp
             implementation("io.ktor:ktor-client-core:${ktorVersion}")
             implementation("io.ktor:ktor-client-json:${ktorVersion}")
@@ -54,9 +52,15 @@ kotlin {
       }
       val androidMain by getting {
          dependencies {
-            //implementation("com.google.android.material:material:1.8.0")
-            api("io.ktor:ktor-client-okhttp:${ktorVersion}")
+            // Coroutines
             api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutinesVersion}")
+
+            // HTTP
+            implementation("io.ktor:ktor-client-android:$ktorVersion")
+            implementation("io.ktor:ktor-client-json-jvm:$ktorVersion")
+            implementation("io.ktor:ktor-client-serialization-jvm:$ktorVersion")
+            implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+            implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
          }
       }
       val androidUnitTest by getting
@@ -64,7 +68,7 @@ kotlin {
       val iosArm64Main by getting
       val iosSimulatorArm64Main by getting
       val iosMain by creating {
-         //dependsOn(commonMain)
+         dependsOn(commonMain)
          iosX64Main.dependsOn(this)
          iosArm64Main.dependsOn(this)
          iosSimulatorArm64Main.dependsOn(this)

@@ -1,15 +1,12 @@
 package com.github.clockworkclyde.newsapp.android
-
 import android.os.Bundle
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import com.github.clockworkclyde.newsapp.Greeting
+import com.github.clockworkclyde.androidcore.presentation.activities.NavHostActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : NavHostActivity(R.layout.activity_main) {
+
+   override val hostFragmentId: Int = R.id.mainHostFragment
 
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
-      setContentView(R.layout.activity_main)
-      findViewById<TextView>(R.id.tv)?.text = Greeting().greet()
    }
 }
