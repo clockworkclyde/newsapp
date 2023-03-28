@@ -30,7 +30,8 @@ class AnimatedBannerView @JvmOverloads constructor(
             Glide.with(root).loadGif(
                gifImageUrl = item.imageUrl,
                view = it,
-               radius = bannerCornerRadius
+               radius = bannerCornerRadius,
+               placeholderResId = R.drawable.bg_banner_placeholder
             )
             tag = item.id
             it.safeClick { onItemClick.invoke(item) }

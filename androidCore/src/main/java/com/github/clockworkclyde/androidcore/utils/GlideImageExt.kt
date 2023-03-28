@@ -58,12 +58,7 @@ fun RequestManager.loadGif(
          )
       )
       .run {
-         if (placeholderResId != null) this.placeholder(
-            AppCompatResources.getDrawable(
-               view.context,
-               placeholderResId
-            )
-         )
+         if (placeholderResId != null) this.placeholder(placeholderResId)
          else this
       }
       .transition(DrawableTransitionOptions.withCrossFade())
