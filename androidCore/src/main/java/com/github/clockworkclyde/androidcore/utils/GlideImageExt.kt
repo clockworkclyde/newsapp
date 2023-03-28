@@ -1,8 +1,9 @@
 package com.github.clockworkclyde.androidcore.utils
 
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.widget.ImageView
-import androidx.appcompat.content.res.AppCompatResources
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -12,7 +13,7 @@ fun RequestManager.loadRoundedImage(
    imageUrl: String,
    view: ImageView,
    radius: Int,
-   placeholderResId: Int? = null
+   placeholderColorResId: String? = null
 ) {
    this.load(imageUrl)
       .transform(
@@ -22,11 +23,8 @@ fun RequestManager.loadRoundedImage(
          )
       )
       .run {
-         if (placeholderResId != null) this.placeholder(
-            AppCompatResources.getDrawable(
-               view.context,
-               placeholderResId
-            )
+         if (placeholderColorResId != null) this.placeholder(
+            ColorDrawable(Color.parseColor(placeholderColorResId))
          )
          else this
       }
@@ -38,29 +36,5 @@ fun RequestManager.loadCircleRoundedBitmap(bitmap: Bitmap, view: ImageView) {
    this.asBitmap()
       .load(bitmap)
       .circleCrop()
-      .into(view)
-}
-
-// Gif
-
-fun RequestManager.loadGif(
-   gifImageUrl: String,
-   view: ImageView,
-   radius: Int,
-   placeholderResId: Int? = null
-) {
-   this.asGif()
-      .load(gifImageUrl)
-      .transform(
-         CenterCrop(),
-         RoundedCorners(
-            radius
-         )
-      )
-      .run {
-         if (placeholderResId != null) this.placeholder(placeholderResId)
-         else this
-      }
-      .transition(DrawableTransitionOptions.withCrossFade())
       .into(view)
 }

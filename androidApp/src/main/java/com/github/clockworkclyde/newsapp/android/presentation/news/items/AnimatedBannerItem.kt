@@ -28,7 +28,7 @@ class AnimatedBannerItem : NewsItem<Banner>() {
       var bannerView: AnimatedBannerView? = view.findViewById(R.id.animatedBannerView)
 
       override fun bindView(item: NewsItem<Banner>, payloads: List<Any>) {
-         item.item?.let { bannerView?.loadAnimatedBannerView(it) }
+         item.item?.let { bannerView?.loadBannerView(it) }
          bannerView?.onItemClick = item.onItemClick
       }
 

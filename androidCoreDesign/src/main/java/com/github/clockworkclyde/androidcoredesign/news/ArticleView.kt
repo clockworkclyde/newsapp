@@ -63,7 +63,11 @@ class ArticleView @JvmOverloads constructor(
          title = article.name
          content = article.description
          createdAt = article.createdAt.secondsToDate(context)
-         setRoundedArticleImage(article.image.url, articleImageRadius)
+         setRoundedArticleImage(
+            article.image.url,
+            articleImageRadius,
+            article.image.placeholderColor
+         )
          binding.cardView.safeClick { onItemClick.invoke(article) }
       }
    }
@@ -76,9 +80,9 @@ class ArticleView @JvmOverloads constructor(
       onItemClick = {}
    }
 
-   fun setRoundedArticleImage(url: String, cornerRadius: Int = 0) {
+   fun setRoundedArticleImage(url: String, cornerRadius: Int = 0, placeHolderColor: String) {
       Glide.with(binding.root)
-         .loadRoundedImage(url, binding.articleIV, cornerRadius)
+         .loadRoundedImage(url, binding.articleIV, cornerRadius, placeHolderColor)
    }
 
 }

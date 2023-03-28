@@ -13,7 +13,6 @@ import com.github.clockworkclyde.newsapp.android.databinding.FragmentNewsBinding
 import com.github.clockworkclyde.newsapp.android.presentation.news.items.AnimatedBannerItem
 import com.github.clockworkclyde.newsapp.android.presentation.news.items.ArticleItem
 import com.github.clockworkclyde.newsapp.android.presentation.news.items.NewsItem
-import com.github.clockworkclyde.newsapp.common.utils.applyIfEmpty
 import com.github.clockworkclyde.newsapp.common.utils.applyIfError
 import com.github.clockworkclyde.newsapp.domain.model.news.Article
 import com.github.clockworkclyde.newsapp.domain.model.news.Banner
@@ -55,7 +54,6 @@ class NewsFragment : BaseDataBindingFragment<FragmentNewsBinding, NewsViewModel>
 
    private fun setUpToolbar() {
       binding.toolbar.apply {
-         navigationIcon
          setNavigationOnClickListener { toast("Arrow back clicked!") }
       }
    }
@@ -83,8 +81,6 @@ class NewsFragment : BaseDataBindingFragment<FragmentNewsBinding, NewsViewModel>
       viewModel.currentStateFlow.collectWhileStarted {
          it.applyIfError { error ->
             toast(error)
-         }.applyIfEmpty {
-            toast(getString(R.string.toast_empty_news_list))
          }
       }
    }

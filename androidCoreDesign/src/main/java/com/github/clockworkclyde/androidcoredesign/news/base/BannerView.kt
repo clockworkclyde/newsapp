@@ -1,67 +1,56 @@
 package com.github.clockworkclyde.androidcoredesign.news.base
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.github.clockworkclyde.androidcore.utils.loadRoundedImage
+import androidx.databinding.ViewDataBinding
+import com.github.clockworkclyde.androidcore.presentation.binding.IBaseDataBinding
+import com.github.clockworkclyde.androidcore.utils.inflateBindingLayout
 
-abstract class BannerView @JvmOverloads constructor(
+abstract class BannerView<V : ViewDataBinding, in T : Any> @JvmOverloads constructor(
    context: Context,
    attrs: AttributeSet? = null,
-   defStyleAttr: Int = 0,
-) : FrameLayout(context, attrs, defStyleAttr) {
+   defStyleAttr: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr), IBannerView, IBaseDataBinding<V> {
 
-   abstract val layoutResId: Int
-   abstract val imageViewResId: Int
+   private var _binding: V? = null
+   override val binding: V get() = _binding ?: error("Cannot access view")
 
-   var layoutView: View? = null
+   open val isAttachedToParent: Boolean = true
 
-   override fun onAttachedToWindow() {
-      super.onAttachedToWindow()
+   private fun setUpView(context: Context) {
       if (!isInEditMode) {
-         setUpView()
-      }
+         _binding = LayoutInflater.from(context)
+            .inflateBindingLayout(layoutResId, this@BannerView, isAttachedToParent)
+         initBinding(binding)
+      } else inflate(context, layoutResId, this@BannerView)
    }
 
-   override fun onDetachedFromWindow() {
-      super.onDetachedFromWindow()
-      if (!isInEditMode) {
-         layoutView = null
-      }
+   override fun setUpBindingView(inflater: LayoutInflater, container: ViewGroup?): View {
+      return LayoutInflater.from(context)
+         .inflateBindingLayout<V>(layoutResId, container, isAttachedToParent).let {
+            _binding = it
+            it.root
+         }
    }
 
-   protected open val isAttachedToParent: Boolean = true
-
-   protected open fun setUpView() {
-      layoutView = LayoutInflater.from(context)
-         .inflate(layoutResId, this@BannerView, isAttachedToParent)
-   }
-
-   abstract fun clearView()
-
-   protected open val imageView: ImageView?
-      get() = findViewById<ImageView>(imageViewResId)
-
-   var image: Drawable? = null
-      get() = imageView?.drawable
-      set(value) {
-         field = value
-         imageView?.setImageDrawable(value)
-      }
+   override fun clearView() = Unit
 
    open var tag: Long = 0L
 
-   protected open fun loadRoundedImage(url: String, tag: Long, cornerRadius: Int = 0) {
-      rootView?.let { root ->
-         imageView?.let { iv ->
-            Glide.with(root).loadRoundedImage(url, iv, cornerRadius)
-            this.tag = tag
-         }
-      }
+   abstract fun loadBannerView(item: T)
+
+   override fun initBinding(binding: V) = Unit
+
+   override fun clearBinding() {
+      _binding?.unbind()
+      _binding = null
+   }
+
+   init {
+      setUpView(context)
    }
 }
