@@ -4,8 +4,11 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import com.github.clockworkclyde.androidcore.presentation.viewmodels.BaseFlowViewModel
+import com.github.clockworkclyde.androidcore.presentation.viewmodels.INavigationViewModel
 import com.github.clockworkclyde.androidcore.utils.onEventFlow
 import com.github.clockworkclyde.androidcore.utils.unsafeLazy
+import com.github.clockworkclyde.newsapp.android.navigation.news.NewsDirections
+import com.github.clockworkclyde.newsapp.android.presentation.details.convertTo
 import com.github.clockworkclyde.newsapp.common.AnyResult
 import com.github.clockworkclyde.newsapp.common.FlowResult
 import com.github.clockworkclyde.newsapp.common.ResultList
@@ -22,7 +25,10 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class NewsViewModel : BaseFlowViewModel(), DefaultLifecycleObserver {
+class NewsViewModel : BaseFlowViewModel(), INavigationViewModel<NewsDirections>,
+   DefaultLifecycleObserver {
+
+   override val directions = NewsDirections()
 
    /**
     * Текущий список новостей и баннеров
@@ -52,12 +58,21 @@ class NewsViewModel : BaseFlowViewModel(), DefaultLifecycleObserver {
    }
 
    fun onArticleClicked(index: Int, article: Article) {
-      // go to article details
-      Timber.d("Article was clicked by $index")
+      processNavEvent(directions.toDetails(article.convertTo()))
    }
 
    fun onBannerClicked(index: Int, banner: Banner) {
       Timber.d("User goes to $banner by click from $index")
+   }
+
+   private var bannerIds = mutableSetOf<Long>()
+
+   fun onBannerDisplayed(position: Int) {
+      val banner = items.value[position] as? Banner
+      if (banner != null && !bannerIds.contains(banner.id)) {
+         Timber.d("Banner displayed to user firstly: $banner")
+         bannerIds.add(banner.id)
+      }
    }
 
    fun onTryToLoadMore(index: Int) {

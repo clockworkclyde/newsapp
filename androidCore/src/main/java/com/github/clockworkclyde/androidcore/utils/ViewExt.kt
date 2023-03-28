@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Point
 import android.net.Uri
+import android.os.Handler
 import android.provider.MediaStore
 import android.view.View
 import android.view.ViewGroup
@@ -127,4 +128,11 @@ fun getScreenSize(context: Context): Point {
    val size = Point()
    display.getSize(size)
    return size
+}
+
+inline fun Any.postDelayed(
+   delayMs: Long = 250L,
+   crossinline action: () -> Unit
+) {
+   Handler().postDelayed({ action() }, delayMs)
 }

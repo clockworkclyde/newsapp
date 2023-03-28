@@ -55,7 +55,7 @@ class ArticleView @JvmOverloads constructor(
 
    var onItemClick: (Article) -> Unit = {}
 
-   private var articleImageRadius =
+   var articleImageRadius =
       context.resources.getDimensionPixelOffset(R.dimen.radius_image_article)
 
    fun setUpView(article: Article?) {

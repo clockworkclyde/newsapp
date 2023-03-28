@@ -5,6 +5,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.github.clockworkclyde.androidcore.presentation.fragments.BaseDataBindingFragment
+import com.github.clockworkclyde.androidcore.utils.postDelayed
 import com.github.clockworkclyde.androidcore.utils.toast
 import com.github.clockworkclyde.androidcore.utils.unsafeLazy
 import com.github.clockworkclyde.newsapp.android.R
@@ -70,6 +71,7 @@ class NewsFragment : BaseDataBindingFragment<FragmentNewsBinding, NewsViewModel>
          ) {
             super.onBindViewHolder(viewHolder, position, payloads)
             viewModel.onTryToLoadMore(position)
+            viewModel.onBannerDisplayed(position)
          }
       }
 
@@ -98,13 +100,16 @@ class NewsFragment : BaseDataBindingFragment<FragmentNewsBinding, NewsViewModel>
       return when (this) {
          is Article -> ArticleItem().withItem(this)
             .also {
-               it.onItemClick = { article -> viewModel.onArticleClicked(index, article) }
+               it.onItemClick =
+                  { article -> postDelayed { viewModel.onArticleClicked(index, article) } }
             }
          is Banner -> AnimatedBannerItem().withItem(this)
             .also {
                it.onItemClick = { banner ->
-                  viewModel.onBannerClicked(index, banner)
-                  // todo: go to banner url
+                  postDelayed {
+                     viewModel.onBannerClicked(index, banner)
+                     // todo: go to banner url
+                  }
                }
             }
       }

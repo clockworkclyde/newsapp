@@ -2,6 +2,7 @@ plugins {
    kotlin("multiplatform")
    id("com.android.library")
    kotlin("plugin.serialization")
+   id("kotlin-parcelize")
 }
 
 kotlin {
@@ -31,7 +32,6 @@ kotlin {
       val commonMain by getting {
          dependencies {
             api("org.jetbrains.kotlinx:kotlinx-serialization-core:${serializationVersion}")
-
             // Ktor client + okhttp
             implementation("io.ktor:ktor-client-core:${ktorVersion}")
             implementation("io.ktor:ktor-client-json:${ktorVersion}")
