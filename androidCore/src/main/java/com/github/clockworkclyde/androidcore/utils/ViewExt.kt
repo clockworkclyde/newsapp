@@ -4,10 +4,12 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Point
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
@@ -118,4 +120,11 @@ fun Activity.hideKeyboard(): Boolean {
 fun TextView.setTextOrGone(text: CharSequence?) {
    this.isGone = text.isNullOrEmpty()
    this.text = text
+}
+
+fun getScreenSize(context: Context): Point {
+   val display = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+   val size = Point()
+   display.getSize(size)
+   return size
 }

@@ -1,14 +1,18 @@
 package com.github.clockworkclyde.androidcore.utils
 
+import android.content.Context
+import com.github.clockworkclyde.androidcore.R
 import java.util.*
+import java.util.concurrent.TimeUnit
 
-fun Long.toDate(): String {
+fun Long.secondsToDate(context: Context): String {
    val c = Calendar.getInstance()
-   c.timeInMillis = this
+   c.timeInMillis = TimeUnit.SECONDS.toMillis(this)
+   val months = context.resources.getStringArray(R.array.ru_articles_months_array)
 
-   val d = c.get(Calendar.DAY_OF_MONTH)
-   val m = c.get(Calendar.MONTH)
-   val y = c.get(Calendar.YEAR)
+   val dd = c.get(Calendar.DAY_OF_MONTH)
+   val mm = c.get(Calendar.MONTH)
+   val yyyy = c.get(Calendar.YEAR)
 
-   return ("$d $m, $y")
+   return "$dd ${months[mm]}, $yyyy"
 }

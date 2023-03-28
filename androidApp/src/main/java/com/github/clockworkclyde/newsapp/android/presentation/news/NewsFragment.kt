@@ -1,9 +1,9 @@
 package com.github.clockworkclyde.newsapp.android.presentation.news
 
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.RecyclerView
 import com.github.clockworkclyde.androidcore.presentation.fragments.BaseDataBindingFragment
 import com.github.clockworkclyde.androidcore.utils.toast
 import com.github.clockworkclyde.androidcore.utils.unsafeLazy
@@ -17,8 +17,9 @@ import com.github.clockworkclyde.newsapp.common.utils.applyIfError
 import com.github.clockworkclyde.newsapp.domain.model.news.Article
 import com.github.clockworkclyde.newsapp.domain.model.news.Banner
 import com.github.clockworkclyde.newsapp.domain.model.news.NewsContentItem
-import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.GenericFastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.fastadapter.listeners.OnBindViewHolderListenerImpl
 
 class NewsFragment : BaseDataBindingFragment<FragmentNewsBinding, NewsViewModel>() {
 
@@ -27,7 +28,7 @@ class NewsFragment : BaseDataBindingFragment<FragmentNewsBinding, NewsViewModel>
    override val viewModel: NewsViewModel by viewModels()
 
    private val adapter by unsafeLazy { ItemAdapter<NewsItem<*>>() }
-   private val fastAdapter by unsafeLazy { FastAdapter.with(adapter) }
+   private val fastAdapter by unsafeLazy { GenericFastAdapter.with(adapter) }
 
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
@@ -40,6 +41,7 @@ class NewsFragment : BaseDataBindingFragment<FragmentNewsBinding, NewsViewModel>
    }
 
    override fun initViews() {
+      setUpToolbar()
       setUpNewsList()
       observeErrorMessages()
       observeNewsItems()
@@ -50,22 +52,24 @@ class NewsFragment : BaseDataBindingFragment<FragmentNewsBinding, NewsViewModel>
       binding.lifecycleOwner = viewLifecycleOwner
    }
 
+   private fun setUpToolbar() {
+      binding.toolbar.apply {
+         navigationIcon
+         setNavigationOnClickListener { toast("Arrow back clicked!") }
+      }
+   }
+
    private fun setUpNewsList() {
-      fastAdapter
-      fastAdapter.onClickListener = { _: View?, _, item: NewsItem<*>, pos ->
-         when (item) {
-            is ArticleItem -> {
-               item.onItemClick = { viewModel.onArticleClicked(pos, it) }
-               true
-            }
-            is AnimatedBannerItem -> {
-               item.onItemClick = {
-                  viewModel.onBannerClicked(pos, it)
-                  // todo: open link -> it.bannerUrl
-               }
-               true
-            }
-            else -> false
+
+      // Pass bind position to viewModel to detect last position in @items for pagination
+      fastAdapter.onBindViewHolderListener = object : OnBindViewHolderListenerImpl<NewsItem<*>>() {
+         override fun onBindViewHolder(
+            viewHolder: RecyclerView.ViewHolder,
+            position: Int,
+            payloads: List<Any>
+         ) {
+            super.onBindViewHolder(viewHolder, position, payloads)
+            viewModel.onTryToLoadMore(position)
          }
       }
 
@@ -74,7 +78,7 @@ class NewsFragment : BaseDataBindingFragment<FragmentNewsBinding, NewsViewModel>
    }
 
    private fun observeErrorMessages() {
-      viewModel.resultFlow.collectWhileStarted {
+      viewModel.currentStateFlow.collectWhileStarted {
          it.applyIfError { error ->
             toast(error)
          }.applyIfEmpty {
@@ -85,16 +89,30 @@ class NewsFragment : BaseDataBindingFragment<FragmentNewsBinding, NewsViewModel>
 
    private fun observeNewsItems() {
       viewModel.items.collectWhileStarted { items ->
-         adapter.clear()
-         adapter.add(items.map { it.convertTo() })
+         adapter.set(items.mapIndexed { i, item -> item.convertTo(i) })
       }
    }
 
    // Convert to adapter items
-   private fun NewsContentItem.convertTo(): NewsItem<*> {
+   private fun NewsContentItem.convertTo(index: Int): NewsItem<*> {
       return when (this) {
          is Article -> ArticleItem().withItem(this)
+            .also {
+               it.onItemClick = { article -> viewModel.onArticleClicked(index, article) }
+            }
          is Banner -> AnimatedBannerItem().withItem(this)
+            .also {
+               it.onItemClick = { banner ->
+                  viewModel.onBannerClicked(index, banner)
+                  // todo: go to banner url
+               }
+            }
       }
+   }
+
+   override fun onSaveInstanceState(_outState: Bundle) {
+      var outState = _outState
+      outState = fastAdapter.saveInstanceState(outState)
+      super.onSaveInstanceState(outState)
    }
 }

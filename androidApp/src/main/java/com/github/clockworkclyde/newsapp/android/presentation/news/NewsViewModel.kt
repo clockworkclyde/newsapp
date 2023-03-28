@@ -61,7 +61,8 @@ class NewsViewModel : BaseFlowViewModel(), DefaultLifecycleObserver {
    }
 
    fun onTryToLoadMore(index: Int) {
-      if (index != items.value.size + 1) return
+      //Timber.d("try to load more with index : $index ; items size : ${items.value.size}")
+      if (index != items.value.size - 1) return
       viewModelScope.launch {
          tryLoadMoreItems()
             .applyIfSuccess {

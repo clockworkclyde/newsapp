@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.github.clockworkclyde.androidcore.utils.inflateBindingLayout
 import com.github.clockworkclyde.androidcore.utils.loadRoundedImage
 import com.github.clockworkclyde.androidcore.utils.safeClick
-import com.github.clockworkclyde.androidcore.utils.toDate
+import com.github.clockworkclyde.androidcore.utils.secondsToDate
 import com.github.clockworkclyde.androidcoredesign.R
 import com.github.clockworkclyde.androidcoredesign.databinding.LayoutArticleViewBinding
 import com.github.clockworkclyde.newsapp.domain.model.news.Article
@@ -62,9 +62,9 @@ class ArticleView @JvmOverloads constructor(
       article?.let {
          title = article.name
          content = article.description
-         createdAt = article.createdAt.toDate()
+         createdAt = article.createdAt.secondsToDate(context)
          setRoundedArticleImage(article.image.url, articleImageRadius)
-         binding.root.safeClick { onItemClick.invoke(article) }
+         binding.cardView.safeClick { onItemClick.invoke(article) }
       }
    }
 
