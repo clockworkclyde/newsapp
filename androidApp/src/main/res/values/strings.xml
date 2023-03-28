@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
    <string name="label_main_screen">Главная</string>
+   <string name="toast_empty_news_list">Не получилось загрузить данные, попробуйте снова</string>
+   <string name="label_main_details">Подробности</string>
 </resources>

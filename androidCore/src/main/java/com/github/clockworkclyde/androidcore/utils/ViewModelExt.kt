@@ -1,7 +1,7 @@
 package com.github.clockworkclyde.androidcore.utils
 
-import com.github.clockworkclyde.androidcore.dto.IEvent
 import com.github.clockworkclyde.androidcore.presentation.viewmodels.IBaseFlowViewModel
+import com.github.clockworkclyde.newsapp.common.dto.IEvent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

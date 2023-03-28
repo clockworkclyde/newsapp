@@ -2,7 +2,9 @@
 
 plugins {
     id("com.android.application")
+    id("kotlin-parcelize")
     kotlin("android")
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -51,9 +53,8 @@ dependencies {
     implementation(AndroidDependencies.appCompat)
     implementation(AndroidDependencies.constraintLayout)
 
-    // RV adapter delegates
-    implementation(AndroidDependencies.adapterDelegates)
-    implementation(AndroidDependencies.adapterDelegatesViewBinding)
+    // RV
+    implementation(AndroidDependencies.fastAdapter)
 
     // Image loading
     implementation(AndroidDependencies.glide)

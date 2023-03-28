@@ -40,11 +40,11 @@ android {
 }
 
 dependencies {
+   implementation(project(":shared"))
 
    implementation(AndroidDependencies.kotlinCoreKtx)
    implementation(AndroidDependencies.navigationUiKtx)
    implementation(AndroidDependencies.appCompat)
-   implementation(AndroidDependencies.adapterDelegates)
    implementation(AndroidDependencies.lifecycleKtx)
    implementation(AndroidDependencies.navigationUiFragmentKtx)
    implementation(AndroidDependencies.timber)
