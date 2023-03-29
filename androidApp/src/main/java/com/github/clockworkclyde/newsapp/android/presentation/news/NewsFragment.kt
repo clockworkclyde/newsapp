@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.github.clockworkclyde.androidcore.presentation.fragments.BaseDataBindingFragment
 import com.github.clockworkclyde.androidcore.utils.postDelayed
@@ -75,7 +74,7 @@ class NewsFragment : BaseDataBindingFragment<FragmentNewsBinding, NewsViewModel>
          }
       }
 
-      binding.newsRV.itemAnimator = DefaultItemAnimator()
+      binding.newsRV.itemAnimator = null
       binding.newsRV.adapter = fastAdapter
    }
 
