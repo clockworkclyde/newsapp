@@ -54,7 +54,7 @@ class NewsViewModel : BaseFlowViewModel(), INavigationViewModel<NewsDirections>,
    }
 
    val currentStateFlow: StateFlow<AnyResult> by unsafeLazy {
-      resultFlow.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyResult())
+      resultFlow.stateIn(viewModelScope, SharingStarted.Lazily, emptyResult())
    }
 
    fun onArticleClicked(index: Int, article: Article) {
@@ -98,6 +98,6 @@ class NewsViewModel : BaseFlowViewModel(), INavigationViewModel<NewsDirections>,
    }
 
    companion object {
-      const val INITIAL_PAGE = 0
+      const val INITIAL_PAGE = 1
    }
 }
