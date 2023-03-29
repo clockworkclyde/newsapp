@@ -1,8 +1,6 @@
 package com.github.clockworkclyde.androidcore.utils
 
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.widget.ImageView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -18,16 +16,8 @@ fun RequestManager.loadRoundedImage(
    this.load(imageUrl)
       .transform(
          CenterCrop(),
-         RoundedCorners(
-            radius
-         )
+         RoundedCorners(radius)
       )
-      .run {
-         if (placeholderColorResId != null) this.placeholder(
-            ColorDrawable(Color.parseColor(placeholderColorResId))
-         )
-         else this
-      }
       .transition(DrawableTransitionOptions.withCrossFade())
       .into(view)
 }

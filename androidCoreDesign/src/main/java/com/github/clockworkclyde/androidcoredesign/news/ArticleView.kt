@@ -60,14 +60,14 @@ class ArticleView @JvmOverloads constructor(
 
    fun setUpView(article: Article?) {
       article?.let {
-         title = article.name
-         content = article.description
-         createdAt = article.createdAt.secondsToDate(context)
          setRoundedArticleImage(
             article.image.url,
             articleImageRadius,
             article.image.placeholderColor
          )
+         title = article.name
+         content = article.description
+         createdAt = article.createdAt.secondsToDate(context)
          binding.cardView.safeClick { onItemClick.invoke(article) }
       }
    }
